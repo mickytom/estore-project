@@ -50,7 +50,7 @@ def loginpage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('main')
+    return redirect('home')
 
 def registerpage(request):
     form = signUpForm()
@@ -95,15 +95,18 @@ def cars(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
 
-    products = Product.objects.filter(
+
+        products = Product.objects.filter(
         Q(product_type__name__icontains='car')
-    )
-    context = {"products": products, 'cartItems': cartItems}
+        )
+    context = {"products": products, 'cartItems': cartItems, 'get_orderitems':get_orderitems }
     return render(request, 'cars.html', context)
 
 def blog(request):
@@ -124,12 +127,13 @@ def checkout(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
-
-    context = {"items": items, "order": order, "cartItems": cartItems}
+        cartItems = order['get_cart_items']
+        get_orderitems = 0
+    context = {"items": items, "order": order, "cartItems": cartItems, 'get_orderitems':get_orderitems }
     return render(request, 'checkout.html', context)
 
 def clothing(request):
@@ -138,15 +142,17 @@ def clothing(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
 
     products = Product.objects.filter(
         Q(product_type__name__icontains='cloth')
     )
-    context = {"products": products, 'cartItems': cartItems}
+    context = {"products": products, 'cartItems': cartItems, 'get_orderitems':get_orderitems }
     return render(request, 'clothing.html', context)
 
 def contact(request):
@@ -160,15 +166,17 @@ def furnitures(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
 
     products = Product.objects.filter(
         Q(product_type__name__icontains='furniture')
     )
-    context = {"products": products, 'cartItems': cartItems}
+    context = {"products": products, 'cartItems': cartItems,'get_orderitems':get_orderitems }
     return render(request, 'furnitures.html', context)
 
 
@@ -185,15 +193,18 @@ def realestate(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
+
 
     products = Product.objects.filter(
         Q(product_type__name__icontains='hous')
     )
-    context = {"products": products, 'cartItems': cartItems}
+    context = {"products": products, 'cartItems': cartItems,'get_orderitems':get_orderitems}
     return render(request, 'realestate.html', context)
 
 def shopdetails(request, pk):
@@ -243,13 +254,14 @@ def shopingCart(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
 
-    context = {"items": items, "order": order, 'cartItems': cartItems}
+    context = {"items": items, "order": order, 'cartItems': cartItems,'get_orderitems':get_orderitems}
     return render(request, 'shoping-cart.html', context)
 
 def updateItem(request):
