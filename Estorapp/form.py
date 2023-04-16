@@ -17,7 +17,7 @@ class signUpForm(UserCreationForm):
         self.fields['email'].widget.attrs.update({
             'required': "",
             'placeholder': "email",
-            'class': "email",
+            'class': "form-control",
             'name': "email",
         })
         self.fields['password1'].widget.attrs.update({
@@ -38,7 +38,3 @@ class signUpForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class ProductForm (ModelForm):
-    class Meta:
-        model = Product
-        fields ="__all__"

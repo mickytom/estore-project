@@ -16,13 +16,13 @@ from django.contrib.auth.decorators import login_required
 
 
 
-def login(request):
+def loginpage(request):
     page = "login"
     if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == "POST":
-        username = request.POST.get('email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
 
         try:
@@ -38,7 +38,12 @@ def login(request):
         else:
             messages.error(request, "password does not exist")
 
-    context = {'page': page}
+    if User.is_authenticated:
+        username = request.user.username
+    else:
+        username == 'Username'
+
+    context = {'page': page, "username": username}
     return render(request, 'login.html', context)
 
 
@@ -56,7 +61,7 @@ def registerpage(request):
             user.email= user.email.lower()
             user.save()
             login(request, user)
-            return redirect("main")
+            return redirect("home")
        else:
            messages.error(request, "an error occurred during registration")
 
@@ -238,7 +243,6 @@ def shopingCart(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-
 
     else:
         items = []
