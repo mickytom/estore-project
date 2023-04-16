@@ -70,16 +70,18 @@ def home(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
 
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     products = Product.objects.filter(
         Q(product_type__name__icontains=q)
     )
-    context = {"products": products, 'cartItems': cartItems}
+    context = {"products": products, 'cartItems': cartItems, 'get_orderitems':get_orderitems }
     return render(request, 'index.html', context)
 
 def cars(request):
@@ -195,17 +197,19 @@ def shopdetails(request, pk):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems=0
 
     menu = Product.objects.get(id=pk)
 
     products = Product.objects.filter(
         Q(product_type__name__icontains= menu.product_type.name)
     )
-    context = {'menu': menu, 'cartItems': cartItems, 'products':products}
+    context = {'menu': menu, 'cartItems': cartItems, 'products':products , 'get_orderitems':get_orderitems}
     return render(request, 'shop-details.html', context)
 
 def shopGrid(request):
@@ -214,16 +218,18 @@ def shopGrid(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        get_orderitems = order.orderitem_set.all().count()
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+        get_orderitems = 0
 
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     products = Product.objects.filter(
         Q(product_type__name__icontains=q)
     )
-    context = {"products": products, 'cartItems': cartItems}
+    context = {"products": products, 'cartItems': cartItems,'get_orderitems':get_orderitems}
     return render(request, 'shop-grid.html', context)
 
 def shopingCart(request):

@@ -84,6 +84,12 @@ class OrderItem(models.Model):
         total = self.product.price * self.quantity
         return total
 
+    @property
+    def get_orderitem(self):
+        orderitems = self.orderitem_set.all()
+        return orderitems
+
+
 
 class Delivery(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
@@ -110,10 +116,6 @@ class Delivery(models.Model):
     def __str__(self):
         return self.city
 
-    @property
-    def get_orderitem(self):
-        orderitems = self.orderitem_set.all()
-        return orderitems
 
 
 
